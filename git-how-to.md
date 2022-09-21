@@ -9,3 +9,8 @@
 
 3. Клонируем репозиторий
 Для клонирования репозитория используем, используя команду: git clone git@githab.com^username/repository.git 
+
+git status
+git add .
+git commit -m ""
+git push
