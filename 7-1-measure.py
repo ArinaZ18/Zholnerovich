@@ -39,8 +39,8 @@ try:
     while a<=249:
         a=adc()
         end=time.time()
-        time1.append(round((end-start),2))
-        print("Напряжение на конденсаторе",a)
+        time1.append(round((end-start),2)) 
+        print("Напряжение на конденсаторе",a) #Находим напряжение на конденсаторе при зарядке
         f.append(str(a))
 
     GPIO.setup(troyka,GPIO.OUT,initial=0) 
@@ -49,27 +49,38 @@ try:
         a=adc()
         end=time.time()
         time1.append(round((end-start),2))
-        print("Напряжение на конденсаторе",a)
+        print("Напряжение на конденсаторе",a) #Находим напряжение на конденсаторе при разрядке
         f.append(str(a))
     end1=time.time()
 finally:
     GPIO.output(dac,0)
     GPIO.cleanup()
 
-
+#Данные опыта
 print("Общая продолжительность эксперимента",(end1-start))
 print("Период измерения",(end1-start)/len(f))
 print("Частота дискретизации",len(f)/(end1-start))
 print("Шаг квантования",3.3/255)
 
+
+#Сохранение полученных экспериментально данных в файлы
 f1=[str(i) for i in f]
 time2=[str(i) for i in time1]
+
+#Файл со значениями напряжения на конденсаторе
 with open('data.txt','w') as outfile:
     outfile.write("\n".join(f1))
 
+#Файл со значение времени выполнения каждого эксперимента
 with open('time.txt','w') as outfile:
     outfile.write("\n".join(time2))
 
+#Файл со значением частоты и шага дискретизации
+with open('settings.txt','w') as outfile:
+    outfile.write("Частота дискретизации","\n")
+    outfile.write(str((end1-start)/len(f)),"\n")
+    outfile.write("Шаг дискретизации","\n")
+    outfile.write(str(3.3/255))
 plt.plot(f1)
 plt.show()
 
